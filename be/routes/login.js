@@ -6,7 +6,6 @@ require("dotenv").config();
 
 router.post("/", async (req, res) => {
   const code = req.body.code;
-  console.log("code", code);
   const getTokens = async () => {
     console.log("process.env.CLIENT_ID", process.env.CLIENT_ID);
     console.log("process.env.CLIENT_SECRET", process.env.CLIENT_SECRET);

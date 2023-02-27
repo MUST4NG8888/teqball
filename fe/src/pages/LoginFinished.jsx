@@ -15,12 +15,10 @@ const LoginFinished = () => {
   useEffect(() => {
     const sendCode = async () => {
       const response = await axios.post("http://localhost:3000/api/login", {code});
-      const token = response.data;
+      const token = await response.data;
       const decoded = jwt_decode(token);
-      if (!decoded) {
-        localStorage.setItem("token", token);
-        navigate("/");
-      }
+      console.log(decoded);
+      navigate("/");
     }
     sendCode();
   }, []);
