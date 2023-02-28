@@ -1,10 +1,10 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RootLayout from "./routes/RootLayout";
-import Home from "./pages/Home";
-import LoginFinished from "./pages/LoginFinished";
-import { UserProvider } from "./context/UserContext";
-import { ChakraProvider } from "@chakra-ui/react";
-import Dashboard from "./pages/Dashboard";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { UserProvider } from "./context/UserContext"
+import { ChakraProvider, extendTheme, withDefaultColorScheme } from "@chakra-ui/react"
+import RootLayout from "./routes/RootLayout"
+import Home from "./pages/Home"
+import LoginFinished from "./pages/LoginFinished"
+import Dashboard from "./pages/Dashboard"
 
 const router = createBrowserRouter([
   {
@@ -16,16 +16,18 @@ const router = createBrowserRouter([
       { path: "/dashboard", element: <Dashboard /> },
     ],
   },
-]);
+])
+
+const theme = extendTheme(withDefaultColorScheme({ colorScheme: "teal" }))
 
 const App = () => {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <UserProvider>
         <RouterProvider router={router} />
       </UserProvider>
     </ChakraProvider>
-  );
-};
+  )
+}
 
-export default App;
+export default App

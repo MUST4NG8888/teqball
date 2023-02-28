@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 
 const TeamSchema = new Schema({
   name: {
@@ -8,6 +8,6 @@ const TeamSchema = new Schema({
     unique: true,
   },
   events: [String],
-});
+})
 
-module.exports = mongoose.model("Team", TeamSchema);
+module.exports = mongoose.model("Team", TeamSchema)

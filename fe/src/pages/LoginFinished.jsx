@@ -1,37 +1,34 @@
-import { useContext, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import axios from "axios";
-import jwt_decode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { useContext, useEffect } from "react"
+import { useSearchParams, useNavigate } from "react-router-dom"
+import axios from "axios"
+import jwt_decode from "jwt-decode"
+import { UserContext } from "../context/UserContext"
+import { Text } from "@chakra-ui/react"
 
 const LoginFinished = () => {
+  const { login } = useContext(UserContext)
+  const navigate = useNavigate()
 
-  const {login} = useContext(UserContext);
-  
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  const code = searchParams.get("code");
-  console.log(code);
+  const [searchParams] = useSearchParams()
+  const code = searchParams.get("code")
 
   useEffect(() => {
     const sendCode = async () => {
-      const response = await axios.post("http://localhost:3000/api/login", {code});
-      const token = await response.data;
-      const decoded = jwt_decode(token);
+      const response = await axios.post("http://localhost:3000/api/login", {code})
+      const token = await response.data
+      const decoded = jwt_decode(token)
       const user = {
         name: decoded.name,
         email: decoded.email,
         picture: decoded.picture,
-      };
-      login(user, token);
-      navigate("/dashboard");
+      }
+      login(user, token)
+      navigate("/dashboard")
     }
-    sendCode();
-  }, []);
+    sendCode()
+  }, [])
 
-  return <div>Hello world</div>;
-};
+  return <Text>Login...</Text>
+}
 
-export default LoginFinished;
+export default LoginFinished

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -7,8 +7,7 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
-  admin: [String],
-  member: [{teamId: String, accepted: Boolean}]
+  member: [{teamId: String, admin: Boolean, accepted: Boolean}]
 });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", UserSchema)
