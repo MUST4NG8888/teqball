@@ -26,7 +26,7 @@ const LoginFinished = () => {
         picture: decoded.picture,
       };
       login(user, token);
-      navigate("/");
+      navigate("/dashboard");
     }
     sendCode();
   }, []);

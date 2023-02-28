@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import LoginFinished from "./pages/LoginFinished";
 import { UserProvider } from "./context/UserContext";
 import { ChakraProvider } from "@chakra-ui/react";
+import Dashboard from "./pages/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/loginfinished", element: <LoginFinished /> },
+      { path: "/dashboard", element: <Dashboard /> },
     ],
   },
 ]);

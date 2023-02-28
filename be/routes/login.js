@@ -25,14 +25,11 @@ router.post("/", async (req, res) => {
     console.log("response.body", response.body);
 
     const data = await response.json();
-    console.log("data",data);
     return data;
   };
 
-  const { id_token } = await getTokens();
-  console.log("id_token", id_token);
+  const { id_token, access_token } = await getTokens();
   const userData = jwt.decode(id_token);
-  console.log(userData);
 
   const foundUser = await User.findOne({ sub: userData.sub });
   if (!foundUser) {
