@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
 import CreateEvent from "../components/CreateEvent";
+import EventCard from "../components/EventCard"
+import InviteUser from "../components/InviteUser";
 
 const TeamPage = () => {
   
@@ -12,6 +14,8 @@ const TeamPage = () => {
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [events, setEvents] = useState([]);
+
+
 
   const { id } = useParams();
 
@@ -39,17 +43,17 @@ const TeamPage = () => {
   }, []);
 
   return (
-    <div>
       <Flex flexDirection="column" gap="8">
       <Heading size="md">Dashboard</Heading>      
       <Flex justifyContent="space-between">
         <Heading size="md" >Team {id}</Heading>
-        <CreateEvent />
-        
+        <InviteUser />
+        <CreateEvent {...{getEvents}} />
       </Flex>
-     
+      <Flex justifyContent="space-between" flexWrap="wrap">
+        {events && events.map(event => <EventCard key={event._id}  {...{event}}/>)}
+      </Flex>
     </Flex>
-    </div>
   );
 };
 

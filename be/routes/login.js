@@ -6,6 +6,7 @@ require("dotenv").config();
 
 router.post("/", async (req, res) => {
   const code = req.body.code;
+  console.log(code)
   const getTokens = async () => {
     const response = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",

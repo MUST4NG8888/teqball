@@ -48,4 +48,34 @@ router.post("/", verifyToken, async (req, res) => {
   res.sendStatus(200);
 });
 
+router.post("/addtocalendar",verifyToken,async(req,res)=>{
+
+  const eventId = req.body.id
+  const event = await Event.findById({_id:eventId})
+
+  const userId = res.locals.user;
+  const user = await User.findById(userId);
+  const API_KEY = process.env.API_KEY;
+  const sendEventToCalendar = async () => {
+    const response = await fetch(
+      `https://www.googleapis.com/calendar/v3/calendars/primary/events?key=${API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `Bearer ${user.access_token}`,
+        },
+        body: JSON.stringify(event),
+      }
+    );
+      return response
+  };
+ 
+  const response = await sendEventToCalendar()
+  console.log(response)
+  if(!response.ok) return res.status(400).json(" NOT OK")
+  return res.status(200).json("OK")
+})
+
 module.exports = router;

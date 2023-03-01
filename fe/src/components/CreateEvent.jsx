@@ -19,7 +19,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
 
-const CreateEvent = () => {
+const CreateEvent = ({getEvents}) => {
   const { id } = useParams();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -66,6 +66,7 @@ const CreateEvent = () => {
         isClosable: true,
         position: "top",
       });
+      getEvents()
       onClose();
     }
   };
