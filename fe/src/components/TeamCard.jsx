@@ -11,7 +11,7 @@ const TeamCard = ({ team }) => {
             ? <Badge colorScheme="red" w="fit-content" px="2">Admin</Badge>
             : <Badge colorScheme="green" w="fit-content" px="2">Player</Badge>
           }
-          <Text>? events</Text>
+          <Text>{ team.events } events</Text>
         </Stack>
       </CardBody>
       <CardFooter>

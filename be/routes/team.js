@@ -10,9 +10,9 @@ router.get("/", verifyToken, async (req, res) => {
   const user = await User.findById(userId)
   const memberIds = user.member.map(m => m.teamId)
   const teams = await Team.find({ _id: { $in: memberIds } })
-  const combinedData = memuser.memberbers.map(member => {
+  const combinedData = user.member.map(member => {
     const team = teams.find(x => x._id == member.teamId)
-    return { member, name: team.name}
+    return { member, name: team.name, events: team.events.length }
   })
   res.json(combinedData)
 })
@@ -21,9 +21,7 @@ router.post("/", verifyToken, async (req, res) => {
   const { teamName } = req.body
   const newTeam = new Team({ name: teamName, events: [] })
   const team = await newTeam.save()
-  
   const user = await User.findByIdAndUpdate(res.locals.user, {$push: {member: {teamId: team._id, admin: true, accepted: true}}}, {new: true})
-
   res.sendStatus(200)
 })
 
