@@ -11,8 +11,17 @@ const TeamPage = () => {
   console.log("user", user);
 
   const [isAdmin, setIsAdmin] = useState(false);
+  const [events, setEvents] = useState([]);
 
   const { id } = useParams();
+
+  const getEvents = async () => {
+    const token = localStorage.getItem("token")
+    const response = await axios.get(`http://localhost:3000/api/event/${id}`,{
+      headers: {Authorization: `Bearer ${token}`},
+    })
+    setEvents(response.data)
+  }
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -23,8 +32,10 @@ const TeamPage = () => {
         }
       );
       console.log("response", response.data);
+
     }  
     checkAdmin();
+    getEvents();
   }, []);
 
   return (
@@ -34,6 +45,7 @@ const TeamPage = () => {
       <Flex justifyContent="space-between">
         <Heading size="md" >Team {id}</Heading>
         <CreateEvent />
+        
       </Flex>
      
     </Flex>

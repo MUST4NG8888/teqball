@@ -6,7 +6,14 @@ const Event = require("../models/EventSchema");
 const verifyToken = require("../middlewares/verifyToken");
 require("dotenv").config();
 
-router.get("/", verifyToken, async (req, res) => {});
+router.get("/:id", verifyToken, async (req, res) => {
+  const teamId = req.params.id;
+  const eventIds = await Team.findById(teamId).select("events");
+  console.log("eventIds", eventIds);
+  const events = await Event.find({ _id: { $in: eventIds.events } });
+  console.log(events);
+  res.json(events);
+});
 
 router.post("/", verifyToken, async (req, res) => {
   console.log(req.body);
