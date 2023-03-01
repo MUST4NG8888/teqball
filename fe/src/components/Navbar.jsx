@@ -14,7 +14,7 @@ const Navbar = () => {
       <Flex gap="4" alignItems="center">
         { user && <Button onClick={() => navigate("/dashboard")} variant="outline">Dashboard</Button> }
         <LoginButton />
-        { user && <Avatar src={user?.picture} onClick={() => navigate("/dashboard")} size="sm" bg="teal.100" cursor="pointer" ></Avatar> }
+        { user && <Avatar src={user?.picture} referrerPolicy="no-referrer" onClick={() => navigate("/dashboard")} size="sm" bg="teal.100" cursor="pointer" ></Avatar> }
       </Flex>
     </Flex>
   )

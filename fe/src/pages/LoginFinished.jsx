@@ -17,6 +17,7 @@ const LoginFinished = () => {
       const response = await axios.post("http://localhost:3000/api/login", {code})
       const token = await response.data
       const decoded = jwt_decode(token)
+      console.log("decoded", decoded)
       const user = {
         name: decoded.name,
         email: decoded.email,

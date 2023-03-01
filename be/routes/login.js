@@ -1,11 +1,11 @@
-const express = require("express")
-const router = express.Router()
-const jwt = require("jsonwebtoken")
-const User = require("../models/UserSchema")
-require("dotenv").config()
+const express = require("express");
+const router = express.Router();
+const jwt = require("jsonwebtoken");
+const User = require("../models/UserSchema");
+require("dotenv").config();
 
 router.post("/", async (req, res) => {
-  const code = req.body.code
+  const code = req.body.code;
   const getTokens = async () => {
     const response = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
@@ -17,21 +17,39 @@ router.post("/", async (req, res) => {
         redirect_uri: "http://localhost:5173/loginfinished",
         grant_type: "authorization_code",
       }),
-    })
-    const data = await response.json()
-    return data
-  }
+    });
+    const data = await response.json();
+    return data;
+  };
 
-  const { id_token, access_token } = await getTokens()
-  const userData = jwt.decode(id_token)
+  const { id_token, access_token } = await getTokens();
+  const userData = jwt.decode(id_token);
 
-  const foundUser = await User.findOne({ sub: userData.sub })
+  const foundUser = await User.findOne({ sub: userData.sub });
   if (!foundUser) {
-    const newUser = new User({ sub: userData.sub, admin: [],  member: [] })
-    await newUser.save()
+    const newUser = new User({
+      sub: userData.sub,
+      email: userData.email,
+      name: userData.name,
+      picture: userData.picture,
+      admin: [],
+      member: [],
+      access_token: access_token,
+    });
+    await newUser.save();
+  } else {
+    await User.findOneAndUpdate(
+      { sub: userData.sub },
+      {
+        email: userData.email,
+        name: userData.name,
+        picture: userData.picture,
+        access_token: access_token,
+      }
+    )
   }
-
-  const user = await User.findOne({ sub: userData.sub })
+  
+  const user = await User.findOne({ sub: userData.sub });
   const token = jwt.sign(
     {
       id: user._id,
@@ -41,9 +59,9 @@ router.post("/", async (req, res) => {
     },
     process.env.JWT_SECRET,
     { expiresIn: "168h" }
-  )
+  );
 
-  res.send(token)
-})
+  res.send(token);
+});
 
-module.exports = router
+module.exports = router;

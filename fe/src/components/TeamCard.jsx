@@ -1,6 +1,11 @@
 import { Card, CardBody, CardFooter, Image, Stack, Text, Heading, Button, Badge } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
 
 const TeamCard = ({ team }) => {
+
+  const navigate = useNavigate()
+  console.log(team);
+
   return (
     <Card w="calc(50% - 8px)" mb="16px">
       <CardBody>
@@ -15,7 +20,7 @@ const TeamCard = ({ team }) => {
         </Stack>
       </CardBody>
       <CardFooter>
-        <Button size="sm">Team data</Button>
+        <Button size="sm" onClick={() => navigate(`/dashboard/${team.member.teamId}`)}>Team data</Button>
       </CardFooter>
     </Card>
   )

@@ -7,7 +7,11 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
-  member: [{teamId: String, admin: Boolean, accepted: Boolean}]
+  name: String,
+  email: String,
+  picture: String,
+  member: [{teamId: String, admin: Boolean, accepted: Boolean}],
+  access_token: String,
 });
 
-module.exports = mongoose.model("User", UserSchema)
+  module.exports = mongoose.model("User", UserSchema)

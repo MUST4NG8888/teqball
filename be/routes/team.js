@@ -17,6 +17,15 @@ router.get("/", verifyToken, async (req, res) => {
   res.json(combinedData)
 })
 
+router.get("/:id", verifyToken, async (req, res) => {
+  const teamId = req.params.id
+  const userId = res.locals.user
+  const user = await User.findById(userId)
+  const isAdmin = user.member.find(m => m.teamId == req.params.id).admin
+  const team = await Team.findById(teamId)
+  res.json({isAdmin, team})
+})
+
 router.post("/", verifyToken, async (req, res) => {
   const { teamName } = req.body
   const newTeam = new Team({ name: teamName, events: [] })

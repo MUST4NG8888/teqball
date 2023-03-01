@@ -3,18 +3,14 @@ import TeamCard from "../components/TeamCard"
 import { Heading, Flex } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { useContext } from "react"
+import { UserContext } from "../context/UserContext"
 
 const Dashboard = () => {
-  const [ teams, setTeams ] = useState([])
-  const token = localStorage.getItem("token")
+ 
+  const {teams, getTeams} = useContext(UserContext)
 
   useEffect(() => {
-    const getTeams = async () => {
-      const response = await axios.get("http://localhost:3000/api/team", {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      setTeams(response.data)
-    }
     getTeams()
   }, [])
 

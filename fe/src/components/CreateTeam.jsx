@@ -1,9 +1,13 @@
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, FormControl, FormLabel, Input, useToast } from "@chakra-ui/react"
 import { AddIcon } from "@chakra-ui/icons"
-import { useRef, useState } from "react"
+import { useRef, useState, useContext } from "react"
 import axios from "axios"
+import { UserContext } from "../context/UserContext"
 
 const CreateTeam = () => {
+
+  const {getTeams} = useContext(UserContext)
+
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [ teamName, setTeamName ] = useState("")
   const toast = useToast();
@@ -24,6 +28,7 @@ const CreateTeam = () => {
         isClosable: true,
         position: 'top',
       })
+      await getTeams()
       onClose()
     }
   }
