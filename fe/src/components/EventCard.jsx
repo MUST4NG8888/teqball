@@ -1,10 +1,12 @@
 import { Card,Heading,Text,Button,Flex,Stack,Image,useToast, CardBody, CardFooter } from '@chakra-ui/react'
-
+import { TimeIcon } from "@chakra-ui/icons"
+import formatDate from "../utils/formatDate"
 
 const EventCard = ({event}) =>{
 
-    const token = localStorage.getItem("token")
-    const toast = useToast();
+  const token = localStorage.getItem("token")
+  const toast = useToast()
+
     const saveToCalendar = async() =>{
         const id= event._id
         const response = await fetch("http://localhost:3000/api/event/addtocalendar",
@@ -43,21 +45,17 @@ const EventCard = ({event}) =>{
 <Card w="calc(50% - 8px)" mb="16px">
   <CardBody>
     <Image
-      src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+      src='https://assets.fiteq.org/teqball/how-to-hero.jpg'
       alt='Green double couch with wooden legs'
       borderRadius='lg'
     />
     <Stack mt='6' spacing='3'>
       <Heading size='md'>{event.summary}</Heading>
-      <Text>{event.location}</Text>
-      <Text>{event.description}</Text>
-      <Flex>
-      <Text >
-        {event.start.dateTime}
-      </Text>
-      <Text>
-        {event.end.dateTime}
-      </Text>
+      <Text>Location: {event.location}</Text>
+      <Text>Description: {event.description}</Text>
+      <Flex gap="4">
+        <Text fontSize="sm"><TimeIcon /> {formatDate(event.start.dateTime)}</Text>
+        <Text fontSize="sm"><TimeIcon /> {formatDate(event.end.dateTime)}</Text>
       </Flex>
     </Stack>
   </CardBody>

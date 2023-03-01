@@ -6,7 +6,7 @@ export const UserContext = createContext()
 export const UserProvider = ({children}) => {
   
   const [ user, setUser ] = useState(null)
-  const [teams, setTeams] = useState([])
+  const [ teams, setTeams ] = useState([])
   
   const login = (user, token) => {
     setUser(user)

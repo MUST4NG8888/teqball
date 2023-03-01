@@ -14,12 +14,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../context/UserContext";
 
-const CreateEvent = ({getEvents}) => {
+const CreateEvent = ({getEvents, isAdmin}) => {
   const { id } = useParams();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -75,7 +74,7 @@ const CreateEvent = ({getEvents}) => {
 
   return (
     <>
-      <Button onClick={onOpen} size="sm" leftIcon={<AddIcon />} w="fit-content">
+      <Button onClick={onOpen} isDisabled={!isAdmin} size="sm" leftIcon={<AddIcon />} w="fit-content">
         Create Event
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>

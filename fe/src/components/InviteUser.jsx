@@ -1,18 +1,14 @@
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, FormControl, FormLabel, Input, useToast } from "@chakra-ui/react"
 import { AddIcon } from "@chakra-ui/icons"
-import { useRef, useState, useContext } from "react"
+import { useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 
-const InviteUser = () => {
-
-    
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const [userEmail,setUserEmail] = useState("")
+const InviteUser = ({ isAdmin }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [userEmail,setUserEmail] = useState("")
   const toast = useToast();
-
   const initialRef = useRef(null)
   const token = localStorage.getItem("token")
-
   const {id} = useParams()
 
   const sendInviteUser = async () => {
@@ -48,7 +44,7 @@ const InviteUser = () => {
 
   return (
     <>
-      <Button onClick={onOpen} size="sm" leftIcon={<AddIcon />} w="fit-content">Invite User</Button>
+      <Button onClick={onOpen} isDisabled={!isAdmin} size="sm" w="fit-content" mr="2">Invite User</Button>
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

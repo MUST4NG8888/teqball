@@ -8,16 +8,12 @@ import EventCard from "../components/EventCard"
 import InviteUser from "../components/InviteUser";
 
 const TeamPage = () => {
-  
-  const { user } = useContext(UserContext);
-  console.log("user", user);
-
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [events, setEvents] = useState([]);
-
-
+  const [ isAdmin, setIsAdmin ] = useState(false)
+  const [ events, setEvents ] = useState([])
 
   const { id } = useParams();
+  const { teams } = useContext(UserContext)
+  const teamName = teams.find(team => team.member.teamId == id).name
 
   const getEvents = async () => {
     const token = localStorage.getItem("token")
@@ -31,24 +27,21 @@ const TeamPage = () => {
     const checkAdmin = async () => {
       const response = await axios.get(
         `http://localhost:3000/api/team/${id}`,
-        { 
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      console.log("response", response.data);
-
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      )
+      setIsAdmin(response.data.isAdmin)
     }  
-    checkAdmin();
-    getEvents();
-  }, []);
+    checkAdmin()
+    getEvents()
+  }, [])
 
   return (
       <Flex flexDirection="column" gap="8">
-      <Heading size="md">Dashboard</Heading>      
+      <Heading size="md">Events</Heading>      
       <Flex justifyContent="space-between">
-        <Heading size="md" >Team {id}</Heading>
-        <InviteUser />
-        <CreateEvent {...{getEvents}} />
+        <Heading size="md" mr="auto">{ teamName }</Heading>
+        <InviteUser isAdmin={isAdmin} />
+        <CreateEvent {...{getEvents, isAdmin}} />
       </Flex>
       <Flex justifyContent="space-between" flexWrap="wrap">
         {events && events.map(event => <EventCard key={event._id}  {...{event}}/>)}

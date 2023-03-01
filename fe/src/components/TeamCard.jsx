@@ -1,10 +1,20 @@
 import { Card, CardBody, CardFooter, Image, Stack, Text, Heading, Button, Badge } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import axios from "axios"
 
 const TeamCard = ({ team }) => {
-
   const navigate = useNavigate()
-  console.log(team);
+  const [ isAccepted, setIsAccepted ] = useState(team.member.accepted)
+  const token = localStorage.getItem("token")
+  const teamId = team.member.teamId
+
+  const joinTeam = async () => {
+    const response = await axios.post("http://localhost:3000/api/user/join", {teamId}, {
+      headers: {Authorization: `Bearer ${token}`},
+    })
+    console.log(response.data)
+  }
 
   return (
     <Card w="calc(50% - 8px)" mb="16px">
@@ -20,7 +30,10 @@ const TeamCard = ({ team }) => {
         </Stack>
       </CardBody>
       <CardFooter>
-        <Button size="sm" onClick={() => navigate(`/dashboard/${team.member.teamId}`)}>Team data</Button>
+        { isAccepted
+          ? <Button size="sm" onClick={() => navigate(`/dashboard/${team.member.teamId}`)}>Enter team</Button>
+          : <Button size="sm" onClick={joinTeam}>Join team</Button>
+        }
       </CardFooter>
     </Card>
   )
