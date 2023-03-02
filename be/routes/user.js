@@ -6,10 +6,15 @@ const verifyToken = require("../middlewares/verifyToken")
 router.post("/join", verifyToken, async (req, res) => {
   const userId = res.locals.user
   const teamId = req.body.teamId
-  const userTeams = await User.findById(userId).member
-  const foundMember = await User.findOne({ member: {$elemMatch: {teamId: teamId}} })
-  console.log(foundMember)
-  res.status(200).json("ok")
+  const user = await User.findById(userId)
+  const foundTeam = user.member.find((team) => team.teamId == teamId)
+  if (foundTeam) {
+    foundTeam.accepted = true
+    await user.save()
+    return res.status(200).json("ok")
+  } else {
+    return res.status(400).json("not found")
+  }
 })
 
 module.exports = router
