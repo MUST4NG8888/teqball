@@ -1,14 +1,12 @@
 import CreateTeam from "../components/CreateTeam"
 import TeamCard from "../components/TeamCard"
 import { Heading, Flex } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { useEffect } from "react"
 import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
 
 const Dashboard = () => {
- 
-  const {teams, getTeams} = useContext(UserContext)
+  const { teams, getTeams } = useContext(UserContext)
 
   useEffect(() => {
     getTeams()

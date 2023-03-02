@@ -1,9 +1,8 @@
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, FormControl, FormLabel, Input, useToast } from "@chakra-ui/react"
-import { AddIcon } from "@chakra-ui/icons"
 import { useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 
-const InviteUser = ({ isAdmin }) => {
+const InviteUser = ({ isAdmin, getMembers }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [userEmail,setUserEmail] = useState("")
   const toast = useToast();
@@ -13,14 +12,13 @@ const InviteUser = ({ isAdmin }) => {
 
   const sendInviteUser = async () => {
     const response = await fetch("http://localhost:3000/api/invite",
-    {method:"POST",
-    body:JSON.stringify({userEmail,id}),
-    headers: {
+    { method:"POST",
+      body:JSON.stringify({userEmail,id}),
+      headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json" 
     },
   })
-
     if (!response.ok) {
         return toast({
             title: 'No user found, or user already invited.',
@@ -39,12 +37,13 @@ const InviteUser = ({ isAdmin }) => {
         isClosable: true,
         position: 'top',
         })
-    onClose()  
+    getMembers()
+    onClose()
   }
 
   return (
     <>
-      <Button onClick={onOpen} isDisabled={!isAdmin} size="sm" w="fit-content" mr="2">Invite User</Button>
+      <Button onClick={onOpen} isDisabled={!isAdmin} size="sm" w="fit-content">Invite User</Button>
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

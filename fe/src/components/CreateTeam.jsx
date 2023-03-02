@@ -1,17 +1,14 @@
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure, FormControl, FormLabel, Input, useToast } from "@chakra-ui/react"
 import { AddIcon } from "@chakra-ui/icons"
 import { useRef, useState, useContext } from "react"
-import axios from "axios"
 import { UserContext } from "../context/UserContext"
+import axios from "axios"
 
 const CreateTeam = () => {
-
-  const {getTeams} = useContext(UserContext)
-
+  const { getTeams } = useContext(UserContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [ teamName, setTeamName ] = useState("")
-  const toast = useToast();
-
+  const toast = useToast()
   const initialRef = useRef(null)
   const token = localStorage.getItem("token")
 

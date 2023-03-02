@@ -4,7 +4,7 @@ import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
 
 const LoginButton = () => {
-  const { user, logout,isLoggedIn } = useContext(UserContext)
+  const { logout,isLoggedIn } = useContext(UserContext)
   const navigate = useNavigate()
 
   const logOut = () => {

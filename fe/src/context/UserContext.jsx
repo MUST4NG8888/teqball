@@ -4,10 +4,9 @@ import axios from "axios"
 export const UserContext = createContext()
 
 export const UserProvider = ({children}) => {
-  
   const [ user, setUser ] = useState(null)
-  const [ teams, setTeams ] = useState([])
-  const [isLoggedIn,setIsLoggedIn] = useState(false)
+  const [ teams, setTeams ] = useState(null)
+  const [ isLoggedIn,setIsLoggedIn ] = useState(false)
   
   const login = (user, token) => {
     setUser(user)
@@ -23,14 +22,12 @@ export const UserProvider = ({children}) => {
     localStorage.removeItem("user")
   }
 
-  useEffect(()=>{
-    if(localStorage.getItem("token")) {
+  useEffect(()=> {
+    if (localStorage.getItem("token")) {
       setUser(JSON.parse(localStorage.getItem("user")))
-      console.log("lefut a login checker")
       setIsLoggedIn(true)
     }
-    getTeams()
-  },[])
+  }, [])
   
   const getTeams = async () => {
     const token = localStorage.getItem("token")
@@ -41,7 +38,7 @@ export const UserProvider = ({children}) => {
   }
  
   return (
-    <UserContext.Provider value={{user, login, logout, teams, getTeams,isLoggedIn }}>
+    <UserContext.Provider value={{user, login, logout, teams, getTeams, isLoggedIn }}>
       {children}
     </UserContext.Provider>
     )
