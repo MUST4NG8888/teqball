@@ -34,4 +34,10 @@ router.post("/", verifyToken, async (req, res) => {
   res.sendStatus(200)
 })
 
+router.post("/members", verifyToken, async (req, res) => {
+  const id = req.body.id
+  const members  =await User.find({"member.teamId":  id})
+  res.send(members)
+})
+
 module.exports = router

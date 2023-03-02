@@ -10,18 +10,28 @@ import InviteUser from "../components/InviteUser";
 const TeamPage = () => {
   const [ isAdmin, setIsAdmin ] = useState(false)
   const [ events, setEvents ] = useState([])
+  const [members,setMembers] = useState(null)
 
   const { id } = useParams();
   const { teams } = useContext(UserContext)
-  const teamName = teams.find(team => team.member.teamId == id).name
+  const teamName = teams.find(team => team.member.teamId == id)?.name
+  const token = localStorage.getItem("token")
 
   const getEvents = async () => {
-    const token = localStorage.getItem("token")
     const response = await axios.get(`http://localhost:3000/api/event/${id}`,{
       headers: {Authorization: `Bearer ${token}`},
     })
     setEvents(response.data)
   }
+
+  const getMembers = async()=>{
+    const members = await axios.post(`http://localhost:3000/api/team/members`,{id},{
+      headers: {Authorization: `Bearer ${token}`},
+    })
+    setMembers(members.data)
+  }
+
+
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -33,6 +43,7 @@ const TeamPage = () => {
     }  
     checkAdmin()
     getEvents()
+    getMembers()
   }, [])
 
   return (

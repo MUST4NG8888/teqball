@@ -4,7 +4,7 @@ import { useContext } from "react"
 import { UserContext } from "../context/UserContext"
 
 const LoginButton = () => {
-  const { user, logout } = useContext(UserContext)
+  const { user, logout,isLoggedIn } = useContext(UserContext)
   const navigate = useNavigate()
 
   const logOut = () => {
@@ -21,7 +21,7 @@ const LoginButton = () => {
   
   return (
     <>
-    { user 
+    { isLoggedIn 
       ? <Button onClick={logOut}>Logout</Button>
       : <Button as="a" href={googleUrl}>Login</Button>
     }

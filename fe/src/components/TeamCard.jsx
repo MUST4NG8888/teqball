@@ -13,7 +13,7 @@ const TeamCard = ({ team }) => {
     const response = await axios.post("http://localhost:3000/api/user/join", {teamId}, {
       headers: {Authorization: `Bearer ${token}`},
     })
-    console.log(response.data)
+    if(response.status ===200)setIsAccepted(true)
   }
 
   return (

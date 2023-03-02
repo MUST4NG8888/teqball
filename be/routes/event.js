@@ -9,14 +9,11 @@ require("dotenv").config();
 router.get("/:id", verifyToken, async (req, res) => {
   const teamId = req.params.id;
   const eventIds = await Team.findById(teamId).select("events");
-  console.log("eventIds", eventIds);
   const events = await Event.find({ _id: { $in: eventIds.events } });
-  console.log(events);
   res.json(events);
 });
 
 router.post("/", verifyToken, async (req, res) => {
-  console.log(req.body);
   const { event, id } = req.body;
   const newEvent = await Event.create(event);
   const team = await Team.findByIdAndUpdate(
@@ -41,7 +38,6 @@ router.post("/", verifyToken, async (req, res) => {
       }
     );
     const data = await response.json();
-    console.log("data", data);
     return data;
   };
   await sendEventToCalendar();
@@ -73,7 +69,6 @@ router.post("/addtocalendar",verifyToken,async(req,res)=>{
   };
  
   const response = await sendEventToCalendar()
-  console.log(response)
   if(!response.ok) return res.status(400).json(" NOT OK")
   return res.status(200).json("OK")
 })

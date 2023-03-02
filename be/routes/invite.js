@@ -6,7 +6,6 @@ const verifyToken = require("../middlewares/verifyToken")
 
 router.post("/",verifyToken, async (req, res) => {
     const {id,userEmail} = req.body;
-    console.log(id,userEmail)
    const user = await User.findOne({ email: userEmail })
 
    if(!user)  return res.status(400).json("Illl")
@@ -15,7 +14,6 @@ router.post("/",verifyToken, async (req, res) => {
     if(teamIds.includes(id))  return res.status(402).json("Illl")
 
    const updateUser = await User.findByIdAndUpdate(user._id, {$push: {member: {teamId: id, admin: false, accepted: false}}}, {new: true})
-    console.log(updateUser)
     return res.status(200).json("User invited")
 })
 
