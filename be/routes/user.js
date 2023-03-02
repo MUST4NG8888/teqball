@@ -16,5 +16,19 @@ router.post("/join", verifyToken, async (req, res) => {
     return res.status(400).json("not found")
   }
 })
+router.post("/makeadmin", verifyToken, async (req, res) => {
+    const userId = req.body.userId
+    const teamId= req.body.id
+    const user = await User.findById(userId)
+    const foundTeam = user.member.find((team) => team.teamId == teamId)
+    console.log(foundTeam)
+    if (foundTeam) {
+      foundTeam.admin = true
+      await user.save()
+      return res.status(200).json("ok")
+    } else {
+      return res.status(400).json("not found")
+    }
+})
 
 module.exports = router

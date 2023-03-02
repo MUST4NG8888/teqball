@@ -6,6 +6,7 @@ import { UserContext } from "../context/UserContext";
 import CreateEvent from "../components/CreateEvent";
 import EventCard from "../components/EventCard"
 import InviteUser from "../components/InviteUser";
+import MemberComponent from "../components/MemberComponent";
 
 const TeamPage = () => {
   const [ isAdmin, setIsAdmin ] = useState(false)
@@ -57,6 +58,7 @@ const TeamPage = () => {
       <Flex justifyContent="space-between" flexWrap="wrap">
         {events && events.map(event => <EventCard key={event._id}  {...{event}}/>)}
       </Flex>
+      {members && members.map(member => <MemberComponent {...{member,isAdmin}} />)}
     </Flex>
   );
 };
